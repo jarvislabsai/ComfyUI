@@ -1499,17 +1499,27 @@ export class ComfyApp {
 		// Load previous workflow
 		let restored = false;
 		try {
+
+			// ths
 			const loadWorkflow = async (json) => {
 				if (json) {
 					const workflow = JSON.parse(json);
 					await this.loadGraphData(workflow);
 					return true;
 				}
-			};
+			};// thus
+
+
+
 			const clientId = api.initialClientId ?? api.clientId;
+			// 
+
 			restored =
-				(clientId && (await loadWorkflow(sessionStorage.getItem(`workflow:${clientId}`)))) ||
-				(await loadWorkflow(localStorage.getItem("workflow")));
+				(clientId &&
+					 
+				(await loadWorkflow(sessionStorage.getItem(`mywork:${clientId}`)))) 
+					 ||
+				(await loadWorkflow(localStorage.getItem("MyWork")));
 		} catch (err) {
 			console.error("Error loading previous workflow", err);
 		}
@@ -1519,12 +1529,14 @@ export class ComfyApp {
 			await this.loadGraphData();
 		}
 
-		// Save current workflow automatically
+		// // Save current workflow automatically
+
+
 		setInterval(() => {
 			const workflow = JSON.stringify(this.graph.serialize());
-			localStorage.setItem("workflow", workflow);
+			localStorage.setItem("MyWork", workflow);
 			if (api.clientId) {
-				sessionStorage.setItem(`workflow:${api.clientId}`, workflow);
+				sessionStorage.setItem(`mywork:${api.clientId}`, workflow);
 			}
 		}, 1000);
 
@@ -1879,6 +1891,9 @@ export class ComfyApp {
 			}
 		}
 
+		const workflow2 = this.graph
+		console.log(workflow2, "hrllo")
+
 		const workflow = this.graph.serialize();
 		const output = {};
 		// Process nodes in order of execution
@@ -1888,7 +1903,7 @@ export class ComfyApp {
 			for (const node of innerNodes) {
 				if (node.isVirtualNode) {
 					continue;
-				}
+				} 
 
 				if (node.mode === 2 || node.mode === 4) {
 					// Don't serialize muted nodes
